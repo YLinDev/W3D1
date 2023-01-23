@@ -36,14 +36,24 @@ class Array
     def my_all?(&prc)
         my_select(&prc).length == self.length
     end
+
+    def my_flatten
+        return [self] if !self.is_a?(Array)
+        flatten = [] 
+        self.each do |el| 
+            flatten.concat(el.my_flatten)
+        end
+        return flatten
+    end
 end
 
+p [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten # => [1, 2, 3, 4, 5, 6, 7, 8]
 
-a = [1, 2, 3]
-p a.my_any? { |num| num > 1 } # => true
-p a.my_any? { |num| num == 4 } # => false
-p a.my_all? { |num| num > 1 } # => false
-p a.my_all? { |num| num < 4 } # => true
+# a = [1, 2, 3]
+# p a.my_any? { |num| num > 1 } # => true
+# p a.my_any? { |num| num == 4 } # => false
+# p a.my_all? { |num| num > 1 } # => false
+# p a.my_all? { |num| num < 4 } # => true
 
 # a = [1, 2, 3]
 # p a.my_reject { |num| num > 1 } # => [1]
